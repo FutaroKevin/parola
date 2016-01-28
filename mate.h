@@ -19,7 +19,7 @@
 /*
 *	Autore: Kevin Tafuro
 *	Contatto: tafurok@gmail.com  k.tafuro@studenti.uniba.it
-* 	Ultima Modifica: 10/01/2016 20:02
+* 	Ultima Modifica: 28/01/2016 12:59
 *	Ultima Modifica da: Kevin Tafuro
 */
 
@@ -58,5 +58,18 @@ MODULO_() {
 VALORE_() {
 	*--sp=*(Val*)value[PCV];
 	STEP;
+}
+
+RADICEQUADRATA_(){
+	if(A >= 0) {
+		A = sqrt(A);
+	} else {
+		err("Sei stupido? vioi fare la radice quadrata di un numero negativo?");
+	}
+}
+
+
+ESPONENZIALE_() {
+	A = exp(A);
 }
 

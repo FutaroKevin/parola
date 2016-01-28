@@ -51,7 +51,8 @@ int	cstk[STKSZ], *csp;		/* stack compilatore */
 int	nvar,cursub,temp,compile,ipc,(**opc)(); /* stato compilatore */
 char	stab[STRSZ], *stabp;		/* tabella stringhe */
 jmp_buf	trap;				/* errore trappola */
-FILE *stackFile[STKSZ];		/* array file aperti */    
+FILE *fileOpened;		/* array file aperti */
+
 
 #define A	sp[1]			/* operando sinistro */
 #define B	sp[0]			/* operando destro */
