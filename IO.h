@@ -43,23 +43,48 @@ LEGGIDATASTIERA_() {
 }
 
 LEGGIDAFILE_() {
-
+	if(!fileOpened) {
+		printf("File non Aperto!\n");
+		return "";
+	} else {
+		char *fcontent;
+		fseek(fileOpened, 0, SEEK_END);
+        fsize = ftell(fileOpened);
+        rewind(fileOpened);
+		fcontent = (char*) malloc(sizeof(char) * fsize);
+        fread(fcontent, 1, fsize, fileOpened);
+        return fcontent;
+	}
 }
 
 SCRIVIFILE_() {   
 // mi servono due parametri il primo il file e il secondo la stringa da scrivere all'interno preferibilmente in due posizioni contigue dello stack
 	Val n=PCV, *ap=(sp+=n)-1;
 	for (f=stab + *sp++; *f; f++)
-		if (*f=='%') printf("%d", (int)*ap--);
-		else if (*f=='$') printf("%s", (char*)*ap--);
-		else putchar(*f);
+		if (*f=='%') fprintf(fileOpened , "%d", (int)*ap--);
+		else if (*f=='$') fprintf(fileOpened , "%s", (char*)*ap--);
+		else fputc(*f, fileOpened);
 }
 
 
 APRIFILELETTURA_() {
-	FILE *fp = NULL;
-	fp = fopen((char*)*ap-- , "r");
-	return fp;
+	fileOpened = fopen((char*)*sp++ , "r");
+	if(!fileOpened) {
+		printf("Apertura File impossibile!\nVerifica che il file esiste!\n");
+	}
 }
 
-SCRIVIFILEINCODA
+APRIFILESCRITTURA_() {
+	fileOpened = fopen((char*)*sp++ , "w");
+	if(!fileOpened) {
+		printf("Impossibile aprire il file!\nVerifica se hai i permessi per scrivere nella cartella.\n");
+	}
+}
+
+APRIFILEPERCODA_() {
+	fileOpened = fopen((char*)*sp++ , "a");
+	if(!fileOpened) {
+		printf("Impossibile aprire il file!\nVerifica se il file esiste o hai i permessi per scrivere nella cartella.\n");
+	}
+}
+
