@@ -23,12 +23,29 @@
 */
 
 #ifdef _WIN32
-  #ifndef _WIN32_WINNT
-    #define _WIN32_WINNT 0x0501  /* Windows XP. */
-  #endif
-  #include <winsock2.h>
-  #include <Ws2tcpip.h>
+  
+  #include "winNet.h"
+
+  typedef enum istanza {server , client};  // tipo definito per la gestione del socket
+
+  istanza i = NULL;
+
+  _DEFINISCISOCKET() {
+    i = (istanza) A;   // imposto tipo
+
+
+    if(i  == server) {
+      impostaServer();
+    } else if(tipo == client) {
+      impostaClient();
+    } else {
+      puts("ERRORE! tipo non definito!\n");
+    }
+  }
+
+
 #else
-  #include <sys/socket.h>
-  #include <arpa/inet.h>
+  
+  #include "unixNet.h"
+
 #endif
