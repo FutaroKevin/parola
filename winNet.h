@@ -34,7 +34,11 @@ void setPorta() {
 	FILE *filePorta = fopen("porta.txt" , "r");
 	fscanf(filePorta , "%d" , &porta);	
 	fclose(filePorta);
-	server.sin_port = htons( porta );
+	if(i == server ) {
+		server.sin_port = htons( porta );
+	} else {
+		client.sin_port = htons( porta );
+	}
 }
 
 void setIndirizzo() {
@@ -42,7 +46,12 @@ void setIndirizzo() {
 	FILE *fileHost = fopen("indirizzo.txt" , "r");
 	fgets(fileHoost , ip);	
 	fclose(fileHost);
-	server.sin_addr.s_addr = inet_addr( ip );
+	if(i  == server ) {
+		server.sin_addr.s_addr = inet_addr( ip );
+	} else {
+		client.sin_adds.s_addr ? inet_addr( ip );
+	}
+	
 }
 
 Bool impostaServer() {
@@ -52,4 +61,12 @@ Bool impostaServer() {
 		return false;
 	}
 
+}
+
+Bool impostaClient() {
+	client.sin_family = AF_INET;
+	if(ClientSocket =socket(AF_INET , SOCK_STREAM , 0) == INVALID_SOCKET) {
+		puts("Errore! Creazione socket client ipossibile!\n");
+		return false;
+	}
 }
